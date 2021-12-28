@@ -3251,9 +3251,8 @@ int fightall(pe people[100], int peoplenum, int peoplei[100]) {
 	}
 	return 0;
 }
-int choose() {
-	int a, b, c, d, e;
-	cout << "请重新选择你的属性：<";
+void choose(){
+	int _health, _damage, _defense, _dodge, _hit;
 	color(10);
 	cout << "生命";
 	color(16);
@@ -3284,8 +3283,8 @@ int choose() {
 	cout << "躲避 = 你选择的躲避×5" << endl;
 	cout << "命中 = 你选择的命中×5" << endl;
 	cout << "现在，请选择：";
-	cin >> a >> b >> c >> d >> e;
-	if (a + b + c + d + e == 100) {
+	cin >> _health>> _damage>> _defense>> _dodge>> _hit;
+	if (_health + _damage + _defense + _dodge + _hit == 100) {
 		cout << "选择完毕..." << endl;
 		health = a * 50;
 		maxhealth = a * 50;
@@ -3293,12 +3292,13 @@ int choose() {
 		defense = c;
 		dodge = d * 5;
 		hit = e * 5;
-	} else {
+	}
+	else {
 		cout << "你选择的数的和不等于100" << endl;
 		choose();
 	}
-	return 0;
 }
+
 int walk() {
 	while (1) {
 		for (int i = 0; i < 100; i++) {
@@ -3410,50 +3410,9 @@ int main() {
 	cout << "请输入你的中文名:";
 	cin >> myname;
 	cout << "请选择你的属性：<";
-	color(10);
-	cout << "生命";
-	color(16);
-	cout << "> <";
-	color(4);
-	cout << "攻击";
-	color(16);
-	cout << "> <";
-	color(14);
-	cout << "防御";
-	color(16);
-	cout << "> <";
-	color(11);
-	cout << "躲避";
-	color(16);
-	cout << "> <";
-	color(13);
-	cout << "命中";
-	color(16);
-	cout << "> 加起来等于";
-	color(4);
-	cout << "100";
-	color(16);
-	cout << "，选择后你的属性为" << endl;
-	cout << "生命 = 你选择的生命×50" << endl;
-	cout << "攻击 = 你选择的×5" << endl;
-	cout << "防御 = 你选择的防御" << endl;
-	cout << "躲避 = 你选择的躲避×5" << endl;
-	cout << "命中 = 你选择的命中×5" << endl;
-	cout << "现在，请选择：";
-
-	cin >> _health >> _damage >> _defense >> _dodge >> _hit;
-	if (_health + _damage + _defense + _dodge + _hit == 100) {
-		cout << "选择完毕..." << endl;
-		health = _health * 50;
-		maxhealth = _health * 50;
-		damage = _damage * 5;
-		defense = _defense;
-		dodge = _dodge * 5;
-		hit = _hit * 5;
-	} else {
-		cout << "你选择的数的和不等于100" << endl;
-		choose();
-	}
+	
+	choose();
+	
 	cout << endl << endl;
 	color(4);
 	cout << "______.-=+:/'";
