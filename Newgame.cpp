@@ -1,23 +1,31 @@
 #include <iostream>
+#include <stdio.h>
 #include <utility>
 #include <thread>
 #include <chrono>
 #include <functional>
 #include <atomic>
 #include <string>
+#include <cstring>
+#include <unistd.h>
 
-#include <windows.h>
-#include <conio.h>
+//#include <conio.h>
 #include <fstream>
 #include <ctime>
 #include <map>
 #include <climits>
 #include <algorithm>
-#include <stdio.h>
 #include <vector>
 #include <iomanip>
-#include <cstring>
 #define edition "1.1.2"
+
+#include <thing.h>
+#include <weapon.h>
+#include <book.h>
+#include <room.h>
+#include <people.h>
+#include <skill.h>
+
 using namespace std;
 int health = 1000, maxhealth = 1000, damage = 100, defense = 20, force = 100,
 maxforce = 100, dodge = 10, hit = 10;
@@ -39,89 +47,7 @@ void color(short x) {
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 	}
 }
-struct sk {
-	string name;
-	string use;
-	string Englishname;
-	int damage;
-	int level;
-	string weapon;
-	int plushealth;
-	int plusforce;
-	int plusattack;
-	int plusdodge;
-	int plushit;
-	int attacknum;
-	int cooldown;
-	int forceneed;
-	bool isattack;
-	int timedamage;
-};
-struct th {
-	string name;
-	string Englishname;
-	string tell;
-	int coin;
-};
-struct we {
-	string name;
-	string Englishname;
-	string type;
-	string tell;
-	int coin;
-	int plusdamage;
-	int plushealth;
-	int plusforce;
-	int plusdefense;
-	int plusdodge;
-	int plushit;
-	int lv;
-	int inlaynum;
-	th inlaything[10];
-};
-struct bo {
-	string name;
-	string Englishname;
-	sk skill;
-	int literate_need;
-	string needskill[100];
-	int needlevel[100];
-	string tell;
-	int coin;
-};
-struct pe {
-	string name;
-	string Englishname;
-	string tell;
-	int health, maxhealth;
-	int damage;
-	int defense;
-	int dodge, hit;
-	int force, maxforce;
-	we weapon;
-	sk skills[100];
-	int skillsnum;
-	bo dropbook;
-	we dropweapon;
-	th dropthing;
-	bool canbai;
-	bool canmove;
-};
-struct ro {
-	string name;
-	string Englishname;
-	string tell;
-	pe people[100];
-	we weapon[100];
-	bo book[100];
-	th thing[100];
-	string dir[100];
-	int cango[100];
-	we weaponsell[100];
-	bo booksell[100];
-	th thingsell[100];
-	bool isshop;
-};
+
 map<string, string> GeneralAttack = {
 	{"刀","a挥起手中x一刀朝b砍来"},
 	{"剑","a提起手中x朝b刺来"},
@@ -866,8 +792,8 @@ ro instancesroom1[12] = {
 	},
 	//密室
 	{
-		"接待室",
-		"ReceptionRoom",
+		"密室",
+		"SecretRoom",
 		"这里是密室，一个潮湿的房间，你刚进去，门就“卡”的一声关了",
 		{
 			{ "武将","general","站在这里的武将，凶神恶煞，带着一股杀气，手里握着宝剑",10000,10000,1000,100,1000,1000,10000,10000,weap["sword2"],{},0,{},{},{} },
@@ -3286,12 +3212,12 @@ void choose(){
 	cin >> _health>> _damage>> _defense>> _dodge>> _hit;
 	if (_health + _damage + _defense + _dodge + _hit == 100) {
 		cout << "选择完毕..." << endl;
-		health = a * 50;
-		maxhealth = a * 50;
-		damage = b * 5;
-		defense = c;
-		dodge = d * 5;
-		hit = e * 5;
+		health = _health * 50;
+		maxhealth = _health * 50;
+		damage = _damage * 5;
+		defense = _defense;
+		dodge = _dodge * 5;
+		hit = _hit * 5;
 	}
 	else {
 		cout << "你选择的数的和不等于100" << endl;
@@ -3351,7 +3277,7 @@ int main() {
 			for (int i = 0; i < 100; i++) {
 				system("cls");
 				cout << "更新中(" << edition << ")...[" << i << "/100]" << endl;
-				Sleep(rand() % 100);
+				sleep(rand() * 10);
 			}
 		} else {
 			return 0;
@@ -3364,7 +3290,7 @@ int main() {
 		cout << "加载数据中...(";
 		cout << i;
 		cout << "/146)" << endl;
-		Sleep(rand() % 50);
+		sleep(rand() % 50000);
 	}
 	system("cls");
 	cout << "初始值加载完成(12951324/12951324)" << endl;
@@ -3442,7 +3368,7 @@ int main() {
 			cout << "你眼前一黑，就什么也不知道了..." << endl;
 			color(16);
 			dienum++;
-			Sleep(1000);
+			sleep(1);
 			nowroomi = 4;
 			inroom = room[4];
 			outroom();
@@ -4437,7 +4363,7 @@ int main() {
 			color(16);
 			cout << "”" << endl;
 			if (yell == "我太难了！" || yell == "我太难了。" || yell == "我太难了") {
-				Sleep(1000);
+				sleep(1);
 				color(6);
 				cout << "天下掉下来一本武功秘籍..." << endl;
 				color(16);
@@ -5373,7 +5299,7 @@ int main() {
 			cout << "你盘腿坐下，静下心来，开始打坐..." << endl;
 			color(16);
 			for (int i = 0; i < time; i++) {
-				Sleep(3000);
+				sleep(3);
 				if (force < maxforce) {
 					if (force + 100 > maxforce) {
 						cout << "你的内力补充了";
@@ -5416,7 +5342,7 @@ int main() {
 			cout << "你盘腿坐下，开始医疗伤口..." << endl;
 			color(16);
 			while (1) {
-				Sleep(3000);
+				sleep(3);
 				if (health + 100 > maxhealth) {
 					cout << "你的气血恢复了";
 					color(10);
@@ -5456,7 +5382,7 @@ int main() {
 				cout << "你拿起矿镐，走进矿洞深处，开始挖矿..." << endl;
 				color(16);
 				for (int i = 0; i < time; i++) {
-					Sleep(10000);
+					sleep(10);
 					int ran = rand() % 44 + 1;
 					switch (ran) {
 						case 1:
@@ -5841,7 +5767,7 @@ int main() {
 		} else if (ins1 == "uplv") {
 			if (nowroomi == 3) {
 				cout << "你恭恭敬敬地问武神：「贫僧武功境界如何？」" << endl;
-				Sleep(1000);
+				sleep(1);
 				if (title == "普通百姓") {
 					cout << "武神说：「贫僧武功正式武士之境界。继续努力即可到达武师境界」" << endl;
 					title = "武士";
@@ -6073,7 +5999,7 @@ int main() {
 					color(4);
 					cout << "你眼前一黑，晕了过去..." << endl;
 					color(16);
-					Sleep(10000);
+					sleep(10);
 					color(6);
 					cout << "慢慢地，你有了知觉..." << endl;
 					color(16);
