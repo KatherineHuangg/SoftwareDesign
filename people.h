@@ -1,9 +1,7 @@
 #include <cstring>
 #include <string>
-#include <skill.h>
 #include <weapon.h>
 #include <book.h>
-#include <thing.h>
 
 using namespace std;
 

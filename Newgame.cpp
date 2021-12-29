@@ -32,7 +32,7 @@ maxforce = 100, dodge = 10, hit = 10;
 string myname, myEnglishname, IDEN, mymenpai = "你还未拜师或创建门派",
 myshifu = "你还未拜师...";
 string title = "普通百姓", title2 = "", task = "";
-bool baishi, isrebound;
+bool baishi, isrebound;//拜师,
 int reboundnum, titlecolor = 16, wudaotalevel = 1;
 int nowroomi = 0, experience = 0, potential = 0, literate = 0, dienum = 0,
 killnum = 0, buildlevel = 1;
@@ -91,6 +91,7 @@ map<string, we> weap = {
 	{"云龙鞭",{}},
 	{"sword2",{"宝剑","sword","剑","这是一把宝剑",1000,100,10,10,1,-15,30,1}},
 };
+
 pe lvpeople[100] = {
 	{"张慧文","guard","他是武道塔1层的守卫者，你需要打败他，才能进入2层",1000,1000,100,10,1000,1000,0,0,{"精铁剑","iron_sword","剑","用精铁铸成的剑，很坚硬",100,100,0,0,0,-10,10,16},{},0,{},{},{},false},
 	{"张楚嫣","guard","她是武道塔2层的守卫者，你需要打败她，才能进入3层",2658,2658,158,27,2521,913,0,0,{"精铁剑","iron_sword","剑","用精铁铸成的剑，很坚硬",100,100,0,0,0,-10,10,16},{},0,{},{},{},false},
@@ -1172,6 +1173,7 @@ ro instancesroom4[1] = {
 		false
 	},
 };
+
 sk myskill[100];
 sk mybasicskill[9] = {
 	{"「基本剑法」", "", "sword", 0, 0, "剑", 0, 0, 5, 0, 2, 0, 0},

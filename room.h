@@ -1,9 +1,7 @@
 #include <cstring>
 #include <string>
-#include <skill.h>
-#include <thing.h>
-#include <weapon.h>
 #include <people.h>
+#include <map>
 
 using namespace std;
 
@@ -22,3 +20,6 @@ struct ro { //room
 	th thingsell[100];
 	bool isshop;
 };
+
+
+
