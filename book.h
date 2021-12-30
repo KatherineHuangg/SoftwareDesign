@@ -14,3 +14,4 @@ struct bo {
 	string tell;
 	int coin;
 };
+
