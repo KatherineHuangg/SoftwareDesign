@@ -25,15 +25,31 @@
 #include <room.h>
 #include <people.h>
 #include <skill.h>
+#include <action.h>
+#include <userInfo.h>
 
 using namespace std;
 ////new
 vector<string> allskilllevel_vect {"一无所知", "不知所以", "略知一二", "出入武林", "半生不熟", "渐入高深", "平淡无奇", 
 "似有所悟", "心神领会", "运用自如", "熟能生巧", "驾轻就熟", "高深莫测", "万人之上", "出神入化", "惊天动地", 
 "旷古绝伦", "举世无双", "绝世高深", "万年不朽", "返璞归真"};
+
+UserInfo userInfo;
+
+map<string, void (Action::*)()> InputMap;
+Action action;
+
+/*std::map<std::string, void (Scene::*)()> sfMap;
+    Scene scene;
+    sfMap["runMe"] = &Scene::runMe;
+
+    // call via reference to object
+    (scene.*sfMap["runMe"])();
+*/
+
 ////new
 
-ro inroom;
+//ro inroom;
 pe x[100];
 we bag[200];
 bo bag2[200];
@@ -52,6 +68,7 @@ int coin = 0, silver = 0, gold = 0, buildexp = 0;
 int password;
 bool gift[100];
 bool ta[100];
+
 void color(short x) {
 	if (x >= 0 && x <= 15) {
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), x);
@@ -76,77 +93,77 @@ int y[100], allskilllevel = 0;
 
 
 int outroom() {
-	cout << "\t" << inroom.name << "(";
+	cout << "\t" << userInfo.inroom.name << "(";
 	color(9);
-	cout << inroom.Englishname;
+	cout << userInfo.inroom.Englishname;
 	color(16);
 	cout << ")" << endl;
-	cout << inroom.tell << endl;
+	cout << userInfo.inroom.tell << endl;
 	cout << endl;
-	if (inroom.dir[0] == "") {
+	if (userInfo.inroom.dir[0] == "") {
 		cout << "这里没有任何明显出口";
 	} else {
 		cout << "这里明显的出口有：";
-		cout << inroom.dir[0];
+		cout << userInfo.inroom.dir[0];
 		for (int i = 1; i < 100; i++) {
-			if (inroom.dir[i] != "") {
-				cout << "," << inroom.dir[i];
+			if (userInfo.inroom.dir[i] != "") {
+				cout << "," << userInfo.inroom.dir[i];
 			}
 		}
 	}
 	cout << endl << endl;
 	for (int i = 0; i < 100; i++) {
-		if (inroom.people[i].name != "") {
-			cout << inroom.people[i].name << "(";
+		if (userInfo.inroom.people[i].name != "") {
+			cout << userInfo.inroom.people[i].name << "(";
 			color(3);
-			cout << inroom.people[i].Englishname;
+			cout << userInfo.inroom.people[i].Englishname;
 			color(16);
 			cout << ")";
 			cout << "[";
-			if (inroom.people[i].health > inroom.people[i].maxhealth / 6 * 5) color(10);
+			if (userInfo.inroom.people[i].health > userInfo.inroom.people[i].maxhealth / 6 * 5) color(10);
 			else if (inroom.people[i].health > inroom.people[i].maxhealth / 6 * 4) color(
 				14);
-			else if (inroom.people[i].health > inroom.people[i].maxhealth / 6 * 3) color(
+			else if (userInfo.inroom.people[i].health > userInfo.inroom.people[i].maxhealth / 6 * 3) color(
 				14);
-			else if (inroom.people[i].health > inroom.people[i].maxhealth / 6 * 2) color(
+			else if (userInfo.inroom.people[i].health > userInfo.inroom.people[i].maxhealth / 6 * 2) color(
 				12);
-			else if (inroom.people[i].health > inroom.people[i].maxhealth / 6) color(12);
+			else if (userInfo.inroom.people[i].health > userInfo.inroom.people[i].maxhealth / 6) color(12);
 			else color(4);
-			cout << inroom.people[i].health;
+			cout << userInfo.inroom.people[i].health;
 			color(16);
 			cout << "/";
 			color(10);
-			cout << inroom.people[i].maxhealth;
+			cout << userInfo.inroom.people[i].maxhealth;
 			color(16);
 			cout << "]" << endl;
 		}
 	}
 	for (int i = 0; i < 100; i++) {
-		if (inroom.weapon[i].name != "") {
-			color(inroom.weapon[i].lv);
-			cout << inroom.weapon[i].name;
+		if (userInfo.inroom.weapon[i].name != "") {
+			color(userInfo.inroom.weapon[i].lv);
+			cout << userInfo.inroom.weapon[i].name;
 			color(16);
 			cout << "(";
 			color(3);
-			cout << inroom.weapon[i].Englishname;
+			cout << userInfo.inroom.weapon[i].Englishname;
 			color(16);
 			cout << ")" << endl;
 		}
 	}
 	for (int i = 0; i < 100; i++) {
-		if (inroom.book[i].name != "") {
-			cout << inroom.book[i].name << "(";
+		if (userInfo.inroom.book[i].name != "") {
+			cout << userInfo.inroom.book[i].name << "(";
 			color(3);
-			cout << inroom.book[i].Englishname;
+			cout << userInfo.inroom.book[i].Englishname;
 			color(16);
 			cout << ")" << endl;
 		}
 	}
 	for (int i = 0; i < 100; i++) {
-		if (inroom.thing[i].name != "") {
-			cout << inroom.thing[i].name << "(";
+		if (userInfo.inroom.thing[i].name != "") {
+			cout << userInfo.inroom.thing[i].name << "(";
 			color(3);
-			cout << inroom.thing[i].Englishname;
+			cout << userInfo.inroom.thing[i].Englishname;
 			color(16);
 			cout << ")" << endl;
 		}
@@ -2126,6 +2143,7 @@ int walk() {
 	}
 }
 int main() {
+	
 	int _health, _damage, _defense, _dodge, _hit;
 	srand((unsigned)time(NULL));
 	cout << "初始值加载完成(12951324/12951324)" << endl;
@@ -2149,7 +2167,7 @@ int main() {
 			return 0;
 		}
 	}
-	inroom = room[0];
+	userInfo.inroom = room[0];
 	for (int i = 0; i <= 146; i++) {
 		system("cls");
 		cout << "初始值加载完成(12951324/12951324)" << endl;
@@ -2224,7 +2242,7 @@ int main() {
 	string po = ">";
 	thread thread_walk(walk);
 	while (1) {
-		if (!baishi) {
+		if (!userInfo.baishi) {
 			color(4);
 			cout << "作者建议你迅速拜师，用menpai来查询门派" << endl;
 			color(16);
@@ -2233,12 +2251,12 @@ int main() {
 			color(4);
 			cout << "你眼前一黑，就什么也不知道了..." << endl;
 			color(16);
-			dienum++;
+			userInfo.dienum++;
 			sleep(1);
-			nowroomi = 4;
-			inroom = room[4];
+			userInfo.nowroomi = 4;
+			userInfo.inroom = room[4];
 			outroom();
-			health = maxhealth;
+			userInfo.health = userInfo.maxhealth;
 		}
 		cout << po;
 		string ins1;
