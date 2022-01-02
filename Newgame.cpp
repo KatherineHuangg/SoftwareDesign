@@ -2069,15 +2069,16 @@ void choose(){
 	cin >> _health>> _damage>> _defense>> _dodge>> _hit;
 	if (_health + _damage + _defense + _dodge + _hit == 100) {
 		cout << "选择完毕..." << endl;
-		health = _health * 50;
-		maxhealth = _health * 50;
-		damage = _damage * 5;
-		defense = _defense;
-		dodge = _dodge * 5;
-		hit = _hit * 5;
+		userInfo.health = _health * 50;
+		userInfo.maxhealth = _health * 50;
+		userInfo.damage = _damage * 5;
+		userInfo.defense = _defense;
+		userInfo.dodge = _dodge * 5;
+		userInfo.hit = _hit * 5;
 	}
 	else {
 		cout << "你选择的数的和不等于100" << endl;
+		cout << "请重新选择你的属性：<";
 		choose();
 	}
 }
@@ -2116,129 +2117,9 @@ int walk() {
 		}
 	}
 }
-int main() {
-	
-	int _health, _damage, _defense, _dodge, _hit;
-	srand((unsigned)time(NULL));
-	cout << "初始值加载完成(12951324/12951324)" << endl;
-	ofstream outdata("update.txt", ios::binary | ios::app | ios::in | ios::out);
-	ifstream fin("update.txt");
-	string od;
-	fin >> od;
-	if (od != edition) {
-		cout << "发现新版本，是否更新？(y/n)" << endl;
-		cin >> od;
-		if (od == "y" || od == "yes" || od == "Y") {
-			ofstream clear("update.txt", ios::trunc);
-			outdata << edition;
-			outdata.close();
-			for (int i = 0; i < 100; i++) {
-				system("cls");
-				cout << "更新中(" << edition << ")...[" << i << "/100]" << endl;
-				sleep(rand() * 10);
-			}
-		} else {
-			return 0;
-		}
-	}
-	userInfo.inroom = room[0];
-	for (int i = 0; i <= 146; i++) {
-		system("cls");
-		cout << "初始值加载完成(12951324/12951324)" << endl;
-		cout << "加载数据中...(";
-		cout << i;
-		cout << "/146)" << endl;
-		sleep(rand() % 50000);
-	}
-	system("cls");
-	cout << "初始值加载完成(12951324/12951324)" << endl;
-	cout << "加载数据完成...(146/146)" << endl;
-	system("pause");
-	system("cls");
-	color(11);
-	cout << edition << "无存档游玩版                                  " << endl;
-	color(6);
-	cout << "                                                  " << endl;
-	cout << "         4&(                                      " << endl;
-	cout << "         ' ~&&\\yM#1                              " << endl;
-	cout << "          ,_'Q!!NMW&        ";
-	color(16);
-	color(14);
-	cout << "龙  的  传  人" << endl;
-	color(6);
-	cout << "        WCb 7N@4D Q%,,        ";
-	color(4);
-	cout << "Legend of the Dragon" << endl;
-	color(6);
-	cout << "          PM'*MDk#M0p,                            " << endl;
-	cout << "              J@J0&e~~4r' ,bQEQ                   " << endl;
-	cout << "               F8I&#'   _&B$$bW#&$                " << endl;
-	cout << "              &0A1   L#DE&E~!QEQ,                 " << endl;
-	cout << " _=,        ,#ORN1  _T@O$'   ZN$Q.   grNq5        " << endl;
-	cout << " ^ 'd     ,OKOpK^  g*QOg'    #Q4p&,/g9X*&#,_/ (q  " << endl;
-	cout << "  TA1   ,sDQWh4^  x&NMO' _   #FQ#K#fA#   '*K#XWP~-" << endl;
-	cout << "   ^&p,wNMMOqD: /HE#EN' ..#g)~'@NGOQx,     '=X*   " << endl;
-	cout << "   '   '43$'hEk##mOD04f_g  ~^ ~  '-OO**O          " << endl;
-	cout << "           ''=0#0Nq2WOBF^#, _           P,,       " << endl;
-	cout << "             .  ^,,~    ~b''       **R3'          " << endl;
-	cout << "                        ow,F        +#F~'         " << endl;
-	cout << "                        /-9!         ' \\         " << endl;
-	color(10);
-	cout << "by Evan_song";
-	color(6);
-	cout << "             R                        " << endl;
-	color(16);
-	_getch();
-	cout << "请输入你的英文名:";
-	cin >>  userInfo.myEnglishname;
-	cout << "请输入你的中文名:";
-	cin >> userInfo.myname;
-	cout << "请选择你的属性：<";
-	
-	choose();
-	
-	cout << endl << endl;
-	color(4);
-	cout << "______.-=+:/'";
-	color(11);
-	cout << "游戏公告";
-	color(4);
-	cout << "'\\:+=-.______" << endl;
-	color(10);
-	cout << "一，游戏更新v" << edition << endl;
-	cout << " 1，减少代码长度" << endl;
-	cout << " 2，修复武道塔BUG" << endl;
-	cout << " 3，新增镶嵌宝石" << endl;
-	cout << " 3，新增任务(task)，可在任务地点或店小二那里接任务" << endl;
-	color(16);
-	cout << endl << endl;
-	outroom();
-	string po = ">";
-	thread thread_walk(walk);
-	while (1) {
-		if (!userInfo.baishi) {
-			color(4);
-			cout << "作者建议你迅速拜师，用menpai来查询门派" << endl;
-			color(16);
-		}
-		if (userInfo.health <= 0) {
-			color(4);
-			cout << "你眼前一黑，就什么也不知道了..." << endl;
-			color(16);
-			userInfo.dienum++;
-			sleep(1);
-			userInfo.nowroomi = 4;
-			userInfo.inroom = room[4];
-			outroom();
-			userInfo.health = userInfo.maxhealth;
-		}
-		cout << po;
-		string ins1;
-		color(15);
-		cin >> ins1;
-		color(16);
-	
-		if (ins1 == "l" || ins1 == "look"){
+
+void game_instruction(string ins1){
+	if (ins1 == "l" || ins1 == "look"){
 			lookAction.runMe();
 		} else if (ins1 == "kill" || ins1 == "k") {
 			killAction.runMe();
@@ -3130,10 +3011,136 @@ int main() {
 			cout << "什么？" << endl;
 			cout << "如果你不知道指令，请输入 help 查询" << endl;
 		}
+}
+
+int main() {
+	
+	int _health, _damage, _defense, _dodge, _hit;
+	srand((unsigned)time(NULL));
+	cout << "初始值加载完成(12951324/12951324)" << endl;
+	ofstream outdata("update.txt", ios::binary | ios::app | ios::in | ios::out);
+	ifstream fin("update.txt");
+	string od;
+	fin >> od;
+	if (od != edition) {
+		cout << "发现新版本，是否更新？(y/n)" << endl;
+		cin >> od;
+		if (od == "y" || od == "yes" || od == "Y") {
+			ofstream clear("update.txt", ios::trunc);
+			outdata << edition;
+			outdata.close();
+			for (int i = 0; i < 100; i++) {
+				system("cls");
+				cout << "更新中(" << edition << ")...[" << i << "/100]" << endl;
+				sleep(rand() * 10);
+			}
+		} else {
+			return 0;
+		}
+	}
+	userInfo.inroom = room[0];
+	for (int i = 0; i <= 146; i++) {
+		system("cls");
+		cout << "初始值加载完成(12951324/12951324)" << endl;
+		cout << "加载数据中...(";
+		cout << i;
+		cout << "/146)" << endl;
+		sleep(rand() % 50000);
+	}
+	system("cls");
+	cout << "初始值加载完成(12951324/12951324)" << endl;
+	cout << "加载数据完成...(146/146)" << endl;
+	system("pause");
+	system("cls");
+	color(11);
+	cout << edition << "无存档游玩版                                  " << endl;
+	color(6);
+	cout << "                                                  " << endl;
+	cout << "         4&(                                      " << endl;
+	cout << "         ' ~&&\\yM#1                              " << endl;
+	cout << "          ,_'Q!!NMW&        ";
+	color(16);
+	color(14);
+	cout << "龙  的  传  人" << endl;
+	color(6);
+	cout << "        WCb 7N@4D Q%,,        ";
+	color(4);
+	cout << "Legend of the Dragon" << endl;
+	color(6);
+	cout << "          PM'*MDk#M0p,                            " << endl;
+	cout << "              J@J0&e~~4r' ,bQEQ                   " << endl;
+	cout << "               F8I&#'   _&B$$bW#&$                " << endl;
+	cout << "              &0A1   L#DE&E~!QEQ,                 " << endl;
+	cout << " _=,        ,#ORN1  _T@O$'   ZN$Q.   grNq5        " << endl;
+	cout << " ^ 'd     ,OKOpK^  g*QOg'    #Q4p&,/g9X*&#,_/ (q  " << endl;
+	cout << "  TA1   ,sDQWh4^  x&NMO' _   #FQ#K#fA#   '*K#XWP~-" << endl;
+	cout << "   ^&p,wNMMOqD: /HE#EN' ..#g)~'@NGOQx,     '=X*   " << endl;
+	cout << "   '   '43$'hEk##mOD04f_g  ~^ ~  '-OO**O          " << endl;
+	cout << "           ''=0#0Nq2WOBF^#, _           P,,       " << endl;
+	cout << "             .  ^,,~    ~b''       **R3'          " << endl;
+	cout << "                        ow,F        +#F~'         " << endl;
+	cout << "                        /-9!         ' \\         " << endl;
+	color(10);
+	cout << "by Evan_song";
+	color(6);
+	cout << "             R                        " << endl;
+	color(16);
+	_getch();
+	cout << "请输入你的英文名:";
+	cin >>  userInfo.myEnglishname;
+	cout << "请输入你的中文名:";
+	cin >> userInfo.myname;
+	cout << "请选择你的属性：<";
+	
+	choose();
+	
+	cout << endl << endl;
+	color(4);
+	cout << "______.-=+:/'";
+	color(11);
+	cout << "游戏公告";
+	color(4);
+	cout << "'\\:+=-.______" << endl;
+	color(10);
+	cout << "一，游戏更新v" << edition << endl;
+	cout << " 1，减少代码长度" << endl;
+	cout << " 2，修复武道塔BUG" << endl;
+	cout << " 3，新增镶嵌宝石" << endl;
+	cout << " 3，新增任务(task)，可在任务地点或店小二那里接任务" << endl;
+	color(16);
+	cout << endl << endl;
+	outroom();
+	string po = ">";
+	thread thread_walk(walk);
+	while (1) {
+		if (!userInfo.baishi) {
+			color(4);
+			cout << "作者建议你迅速拜师，用menpai来查询门派" << endl;
+			color(16);
+		}
+		if (userInfo.health <= 0) {
+			color(4);
+			cout << "你眼前一黑，就什么也不知道了..." << endl;
+			color(16);
+			userInfo.dienum++;
+			sleep(1);
+			userInfo.nowroomi = 4;
+			userInfo.inroom = room[4];
+			outroom();
+			userInfo.health = userInfo.maxhealth;
+		}
+		cout << po;
+		string ins1;
+		color(15);
+		cin >> ins1;
+		color(16);
+	
+		game_instruction(ins1);
+		
 		conversion();
-		for (int i = 0; i < myskilli; i++) {
+		for (int i = 0; i < userInfo.myskilli; i++) {
 			if (myskill[i].name != "绝世武功") {
-				myskill[i].damage = myskill[i].timedamage * damage;
+				myskill[i].damage = myskill[i].timedamage * userInfo.damage;
 			}
 		}
 	}
